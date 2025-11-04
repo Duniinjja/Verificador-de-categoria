@@ -19,12 +19,12 @@ CANDIDATES = [
 DEFAULT_DEPARA_PATH = next((p for p in CANDIDATES if p.exists()), None)
 
 with st.expander("Configuração do De/Para", expanded=False):
-    st.markdown("""
-    O app procura automaticamente por `depara_categorias.csv` nas seguintes localizações:
-    1) mesma pasta do app  
-    2) `./data/depara_categorias.csv`  
-    Se não encontrar, você pode **enviar** o De/Para manualmente (CSV/Excel) abaixo.
-    """)
+    st.markdown(
+        "O app procura automaticamente por `depara_categorias.csv` nas seguintes localizações:\n"
+        "1) mesma pasta do app  \n"
+        "2) `./data/depara_categorias.csv`  \n"
+        "Se não encontrar, você pode **enviar** o De/Para manualmente (CSV/Excel) abaixo."
+    )
     st.write("Arquivo padrão encontrado:" if DEFAULT_DEPARA_PATH else "Nenhum arquivo padrão encontrado.")
     if DEFAULT_DEPARA_PATH:
         st.code(str(DEFAULT_DEPARA_PATH))
@@ -32,19 +32,28 @@ with st.expander("Configuração do De/Para", expanded=False):
 # Uploader opcional de De/Para (só se não existir localmente)
 depara_upload = None
 if DEFAULT_DEPARA_PATH is None:
-    depara_upload = st.file_uploader("De/Para (CSV ou Excel) — opcional, use se o padrão não estiver no repo", type=["csv","xlsx","xlsm","xltx","xltm","txt"], key="depara")
+    depara_upload = st.file_uploader(
+        "De/Para (CSV ou Excel) — opcional, use se o padrão não estiver no repo",
+        type=["csv", "xlsx", "xlsm", "xltx", "xltm", "txt"],
+        key="depara"
+    )
 
 # Entrada do nome da coluna
 coluna_categoria = st.text_input("Nome da coluna de categoria", value="Categoria")
 
 # Upload do arquivo de dados
-uploaded = st.file_uploader("Suba aqui sua planilha para verificar", type=["xlsx","xlsm","csv","txt"], accept_multiple_files=False)
+uploaded = st.file_uploader(
+    "Suba aqui sua planilha para verificar",
+    type=["xlsx", "xlsm", "csv", "txt"],
+    accept_multiple_files=False
+)
 
 def read_any(file):
     name = file.name if hasattr(file, "name") else str(file)
     if name.lower().endswith((".xlsx", ".xlsm", ".xltx", ".xltm")):
         return pd.read_excel(file, dtype=str)
     else:
+        # csv/txt
         try:
             return pd.read_csv(file, dtype=str)
         except Exception:
@@ -59,7 +68,7 @@ def normalize_cols(df):
 def load_depara_from_path(path: Path):
     df = pd.read_csv(path, dtype=str)
     df = df.rename(columns=lambda c: str(c).strip())
-    if not {"Categoria","DRE"}.issubset(set(df.columns)):
+    if not {"Categoria", "DRE"}.issubset(set(df.columns)):
         raise ValueError("O arquivo de/para precisa ter as colunas 'Categoria' e 'DRE'.")
     df["Categoria"] = df["Categoria"].astype(str).str.strip()
     df["DRE"] = df["DRE"].astype(str).str.strip()
@@ -69,9 +78,9 @@ def load_depara_from_upload(file):
     df = read_any(file)
     df = df.rename(columns=lambda c: str(c).strip())
     # tenta mapear nomes
-    origem = next((c for c in df.columns if c.lower() in ("categoria","origem","de")), df.columns[0])
-    destino = next((c for c in df.columns if c.lower() in ("dre","para","destino","categoria_dre")), df.columns[-1])
-    df = df[[origem, destino]].rename(columns={origem:"Categoria", destino:"DRE"})
+    origem = next((c for c in df.columns if c.lower() in ("categoria", "origem", "de")), df.columns[0])
+    destino = next((c for c in df.columns if c.lower() in ("dre", "para", "destino", "categoria_dre")), df.columns[-1])
+    df = df[[origem, destino]].rename(columns={origem: "Categoria", destino: "DRE"})
     df["Categoria"] = df["Categoria"].astype(str).str.strip()
     df["DRE"] = df["DRE"].astype(str).str.strip()
     return df
@@ -79,7 +88,7 @@ def load_depara_from_upload(file):
 def run_check(df_dados, df_depara, col_cat):
     df = normalize_cols(df_dados)
     if col_cat not in df.columns:
-        raise ValueError(f\"Coluna '{col_cat}' não encontrada. Colunas: {list(df.columns)}\")
+        raise ValueError(f"Coluna '{col_cat}' não encontrada. Colunas: {list(df.columns)}")
     df[col_cat] = df[col_cat].astype(str).str.strip()
     out = df.merge(df_depara, how="left", left_on=col_cat, right_on="Categoria")
     out["Motivo"] = out["DRE"].isna().map({True: "categoria_nao_mapeada", False: ""})
@@ -103,7 +112,7 @@ if uploaded is not None:
         total = len(out_df)
         invalidos = len(erros_df)
         validos = total - invalidos
-        st.success(f"Concluído: Total **{total}** · Válidas **{validos}** · Não mapeadas **{invalidos}**")
+        st.success(f"Concluído: Total {total} · Válidas {validos} · Não mapeadas {invalidos}")
 
         if invalidos > 0:
             st.subheader("Amostra de problemas")
