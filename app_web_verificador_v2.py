@@ -1,4 +1,5 @@
 import io
+import os
 from pathlib import Path
 import pandas as pd
 import streamlit as st
@@ -30,10 +31,11 @@ if DEFAULT_DEPARA_PATH is None:
 coluna_categoria = st.text_input("Nome da coluna de categoria", value="Categoria")
 dados_file = st.file_uploader("Suba a planilha de dados", type=["xlsx","xlsm","csv","txt"], accept_multiple_files=False)
 
-def read_any(file):
+# --- leitura genérica com suporte a 'sheet_name' ---
+def read_any(file, sheet_name=None):
     name = file.name if hasattr(file, "name") else str(file)
-    if name.lower().endswith((".xlsx",".xlsm",".xltx",".xltm")):
-        return pd.read_excel(file, dtype=str)
+    if name.lower().endswith((".xlsx", ".xlsm", ".xltx", ".xltm")):
+        return pd.read_excel(file, dtype=str, sheet_name=sheet_name)  # se None, lê a 1ª aba
     else:
         try:
             return pd.read_csv(file, dtype=str)
@@ -62,7 +64,19 @@ if dados_file is not None:
             st.error("Faltou o De/Para. Envie um arquivo de/para ou inclua 'depara_categorias.csv'.")
             st.stop()
 
-        dados_df = read_any(dados_file)
+        # --- escolher a aba (prioriza 'despesa') se for Excel ---
+        ext = os.path.splitext(dados_file.name)[1].lower()
+        if ext in [".xlsx", ".xlsm", ".xltx", ".xltm"]:
+            xl = pd.ExcelFile(dados_file)
+            abas = xl.sheet_names
+            # padrão: primeira aba que contenha 'despesa' no nome; senão a 1ª
+            default_aba = next((a for a in abas if "despesa" in a.lower()), abas[0])
+            sheet_selected = st.selectbox("Aba a processar", abas, index=abas.index(default_aba))
+            dados_df = xl.parse(sheet_selected, dtype=str)
+        else:
+            # CSV/TXT
+            dados_df = read_any(dados_file)
+
         dados_df.columns = [str(c).strip() for c in dados_df.columns]
         if coluna_categoria not in dados_df.columns:
             raise ValueError(f"Coluna '{coluna_categoria}' não encontrada. Colunas: {list(dados_df.columns)}")
@@ -70,8 +84,10 @@ if dados_file is not None:
         dados_df[coluna_categoria] = dados_df[coluna_categoria].astype(str).str.strip()
         dados_df["chave_lower"] = dados_df[coluna_categoria].str.lower()
 
-        out = dados_df.merge(depara_df[["chave_lower","DRE","Categoria"]],
-                             how="left", on="chave_lower", suffixes=("", "_map"))
+        out = dados_df.merge(
+            depara_df[["chave_lower","DRE","Categoria"]],
+            how="left", on="chave_lower", suffixes=("", "_map")
+        )
         out["Motivo"] = out["DRE"].isna().map({True: "categoria_nao_mapeada", False: ""})
         erros = out[out["Motivo"]!=""]
 
