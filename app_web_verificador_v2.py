@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 st.set_page_config(page_title="Verificador de Categoria (case-insensitive)", page_icon="🔠", layout="wide")
-st.title("🔠 Verificador de Categoria — ignora maiúsculas/minúsculas apenas")
+st.title("🔠 Verificador de Categoria")
 
 APP_DIR = Path(__file__).parent
 CANDIDATES = [
