@@ -9,7 +9,7 @@ st.title("🔠 Verificador de Categoria")
 
 APP_DIR = Path(__file__).parent
 
-# ----- caminhos padrão para os dois mapeamentos -----
+# --- caminhos padrão ---
 CANDIDATES_DESP = [
     APP_DIR / "depara_categorias.csv",
     APP_DIR / "data" / "depara_categorias.csv",
@@ -18,42 +18,40 @@ CANDIDATES_DESP = [
 ]
 DEFAULT_DEPARA_DESP = next((p for p in CANDIDATES_DESP if p.exists()), None)
 
-# Para RECEITAS aceitamos .csv/.xlsx; se for Pasta1.xlsx, usamos a Planilha1 (Categoria, DRE)
 CANDIDATES_REC = [
     APP_DIR / "depara_receita.csv",
     APP_DIR / "data" / "depara_receita.csv",
-    APP_DIR / "Pasta1.xlsx",                # seu arquivo citado
     Path("depara_receita.csv"),
     Path("data") / "depara_receita.csv",
-    Path("Pasta1.xlsx"),
 ]
 DEFAULT_DEPARA_REC = next((p for p in CANDIDATES_REC if p.exists()), None)
 
-# ----------------- UI: escolha do tipo -----------------
+# ----------------- UI -----------------
 tipo = st.radio("Selecione o tipo de verificação", ["Despesas", "Receitas"], horizontal=True)
+coluna_padrao = "Categoria" if tipo == "Despesas" else "Produto"
 
 with st.expander("Configuração do De/Para", expanded=False):
     if tipo == "Despesas":
-        st.markdown("**De/Para (Despesas)** — o app procura `depara_categorias.csv` na pasta do app ou em `./data/`.")
-        st.code(str(DEFAULT_DEPARA_DESP) if DEFAULT_DEPARA_DESP else "nenhum arquivo padrão encontrado")
+        st.markdown("**De/Para (Despesas)** — esperado: `depara_categorias.csv`")
+        st.code(str(DEFAULT_DEPARA_DESP) if DEFAULT_DEPARA_DESP else "Arquivo padrão não encontrado")
     else:
-        st.markdown("**De/Para (Receitas)** — o app procura `depara_receita.csv` **ou** `Pasta1.xlsx` (Planilha1).")
-        st.code(str(DEFAULT_DEPARA_REC) if DEFAULT_DEPARA_REC else "nenhum arquivo padrão encontrado")
+        st.markdown("**De/Para (Receitas)** — esperado: `depara_receita.csv`")
+        st.code(str(DEFAULT_DEPARA_REC) if DEFAULT_DEPARA_REC else "Arquivo padrão não encontrado")
 
-# Upload opcional do De/Para quando o padrão não existir
-depara_upload = None
-if (tipo == "Despesas" and DEFAULT_DEPARA_DESP is None) or (tipo == "Receitas" and DEFAULT_DEPARA_REC is None):
-    depara_upload = st.file_uploader(
-        "De/Para (CSV/Excel) — envie apenas se o arquivo padrão não estiver no repositório",
-        type=["csv", "xlsx", "xlsm", "xltx", "xltm", "txt"],
-        key="depara"
-    )
+    # 👇 Avançado (opcional). Fica DESLIGADO por padrão.
+    depara_upload = None
+    if st.checkbox("Enviar De/Para customizado (avançado)", value=False):
+        depara_upload = st.file_uploader(
+            "De/Para (CSV/Excel) — use apenas se o arquivo padrão não estiver no repositório",
+            type=["csv", "xlsx", "xlsm", "xltx", "xltm", "txt"],
+            key="depara_custom"
+        )
+    else:
+        depara_upload = None
 
-# Nome da coluna de categoria (muda conforme tipo)
-coluna_padrao = "Categoria" if tipo == "Despesas" else "Produto"
 coluna_categoria = st.text_input("Nome da coluna de categoria na planilha", value=coluna_padrao)
 
-# Upload da planilha de dados
+# ✅ ÚNICO upload visível no fluxo normal
 dados_file = st.file_uploader("Suba a planilha de dados", type=["xlsx", "xlsm", "csv", "txt"], accept_multiple_files=False)
 
 # ----------------- helpers -----------------
@@ -68,7 +66,7 @@ def read_any(file, sheet_name=None):
             return pd.read_csv(file, sep=";", dtype=str)
 
 def load_depara_generic(file_or_path):
-    """Lê um De/Para com duas colunas (Categoria -> DRE). Insensível a caixa."""
+    """Lê De/Para com duas colunas (Categoria -> DRE). Insensível a caixa."""
     df = read_any(file_or_path)
     df = df.rename(columns=lambda c: str(c).strip())
     origem = next((c for c in df.columns if c.lower() in ("categoria","origem","de")), df.columns[0])
@@ -79,36 +77,28 @@ def load_depara_generic(file_or_path):
     df["chave_lower"] = df["Categoria"].str.lower()
     return df
 
-def load_depara_receita_default(path: Path):
-    """Permite que o padrão de receitas seja CSV/Excel ou o Pasta1.xlsx (Planilha1)."""
-    if path.suffix.lower() in [".xlsx", ".xlsm", ".xltx", ".xltm"]:
-        # Pasta1.xlsx esperado: Planilha1 com colunas Categoria, DRE
-        return load_depara_generic(path)
-    else:
-        return load_depara_generic(path)
-
 # ----------------- processamento -----------------
 if dados_file is not None:
     try:
-        # 1) de/para por tipo
+        # 1) Seleciona De/Para conforme o tipo, priorizando arquivo padrão; upload só se usuário ativar opção avançada
         if tipo == "Despesas":
-            if DEFAULT_DEPARA_DESP is not None:
+            if DEFAULT_DEPARA_DESP is not None and depara_upload is None:
                 depara_df = load_depara_generic(DEFAULT_DEPARA_DESP)
-            elif depara_upload:
+            elif depara_upload is not None:
                 depara_df = load_depara_generic(depara_upload)
             else:
-                st.error("Faltou o De/Para de Despesas. Envie um arquivo ou inclua 'depara_categorias.csv'.")
+                st.error("Faltou o De/Para de Despesas (depara_categorias.csv).")
                 st.stop()
         else:  # Receitas
-            if DEFAULT_DEPARA_REC is not None:
-                depara_df = load_depara_receita_default(DEFAULT_DEPARA_REC)
-            elif depara_upload:
+            if DEFAULT_DEPARA_REC is not None and depara_upload is None:
+                depara_df = load_depara_generic(DEFAULT_DEPARA_REC)
+            elif depara_upload is not None:
                 depara_df = load_depara_generic(depara_upload)
             else:
-                st.error("Faltou o De/Para de Receitas. Envie um arquivo ou inclua 'depara_receita.csv' / 'Pasta1.xlsx'.")
+                st.error("Faltou o De/Para de Receitas (depara_receita.csv).")
                 st.stop()
 
-        # 2) escolher a aba automaticamente e permitir override
+        # 2) Aba padrão: 'despesa' para Despesas, 'receita' para Receitas (pode mudar no seletor)
         ext = os.path.splitext(dados_file.name)[1].lower()
         if ext in [".xlsx", ".xlsm", ".xltx", ".xltm"]:
             xl = pd.ExcelFile(dados_file)
@@ -120,7 +110,7 @@ if dados_file is not None:
         else:
             dados_df = read_any(dados_file)
 
-        # 3) normalização e checagens
+        # 3) Normaliza e valida coluna
         dados_df.columns = [str(c).strip() for c in dados_df.columns]
         if coluna_categoria not in dados_df.columns:
             raise ValueError(f"Coluna '{coluna_categoria}' não encontrada. Colunas: {list(dados_df.columns)}")
@@ -128,7 +118,7 @@ if dados_file is not None:
         dados_df[coluna_categoria] = dados_df[coluna_categoria].astype(str).str.strip()
         dados_df["chave_lower"] = dados_df[coluna_categoria].str.lower()
 
-        # 4) merge e resultado
+        # 4) Merge
         out = dados_df.merge(
             depara_df[["chave_lower", "DRE", "Categoria"]],
             how="left", on="chave_lower", suffixes=("", "_map")
@@ -137,8 +127,7 @@ if dados_file is not None:
         erros = out[out["Motivo"] != ""]
 
         # 5) UI
-        label_tipo = "despesas" if tipo == "Despesas" else "receitas"
-        st.success(f"Verificação de {label_tipo} concluída: {len(out)} linhas · {len(erros)} não mapeadas.")
+        st.success(f"Verificação concluída ({tipo.lower()}): {len(out)} linhas · {len(erros)} não mapeadas.")
         st.dataframe(erros.head(100), use_container_width=True)
 
         erros_csv = erros.to_csv(index=False).encode("utf-8-sig")
