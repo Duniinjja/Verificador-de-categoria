@@ -1,26 +1,28 @@
 ﻿Categoria,DRE
+13º Salário,13º Salário
 4NET,Telefonia e Internet
-Acordo Cliente,Prejuízo
+Acordo Cliente,Mediari
 Adiantamento,Salários
 Adiantamento (Comercial),Salários Comercial
 Adiantamento (Jurídico),Salários Jurídico
 Advogado,Consultorias / Assessorias
-Agendamento Audiência ,Audiência
-Àgua,Patrimonial
-algar,Telefonia e Internet
+Agendamento Audiência,Audiência
 Aluguel,Alugueis
-Aluguel das Máquinas,Materiais e Correios
 Aluguel Toalhas Mesas,Materiais e Correios
+Aluguel das Máquinas,Materiais e Correios
 B.Brasil,(-) Despesas Financeiras Banco
 Benefícios,Benefícios
-Benfeitorias que ficarão no imoveis ,CAPEX
+Benfeitorias que ficarão no imoveis,CAPEX
 Bradesco,(-) Despesas Financeiras Banco
 Caixa,Caixa
+Caixa UOP,Transferência entre empresas
 Caixa do grupo,Transferência entre empresas
-Caixa UOP ,Transferência entre empresas
 Carros,Carros
+Cartão Crédito,Cartão Crédito
 Cartão de Crédito,Cartão Crédito
-Chargeback,(-) Chargeback
+ChargeBack,(-) Chargeback
+ChargeBack Fictor,(-) Chargeback
+ChargeBack PayUp,(-) Chargeback
 Cliksing,Programas Administrativos
 Combustível,Carros
 Comercial,Marketing
@@ -34,96 +36,131 @@ Compra de equipamentos para operação,CAPEX
 Compra de móveis,CAPEX
 Conciliação de Audiência,Audiência
 Confraternização,Eventos
+Consultorias,Consultorias / Assessorias
 Consórcio,Consórcio
-Consultorias ,Consultorias / Assessorias
-Contabilidade,Consultorias / Assessorias
 Convênio,Benefícios
-Convênio Farmais ,Benefícios
+Convênio Farmais,Benefícios
 Convênio Médico,Benefícios
 Convênio Médico (Comercial),Benefícios Comercial
 Convênio Médico (Jurídico),Benefícios Jurídico
 Copa,Materiais e Correios
 Correio,Materiais e Correios
-DARF,Encargos
+Darf,Encargos
 Decoração,Materiais e Correios
 Devolução da empresa para o sócio,Devolução sócio
 Devolução sócio,Devolução sócio
 Digisac,Programas Administrativos
 Discador,Telefonia e Internet
 Discador Oncall,Telefonia e Internet
-Elite ,Elite
+Elite,Elite
 Elite imóvel,Laudos
-Embalagens M.M ,Materiais e Correios
+Embalagens M.M,Materiais e Correios
 Empréstimo,(-) Despesas Financeiras Banco
 Empréstimo B. Brasil,(-) Despesas Financeiras Banco
 Empréstimo Colaborador,Benefícios
 Endomarketing,Benefícios
-Enel (energia),Patrimonial
+Enel (Energia),Patrimonial
 Entre empresas,Transferência entre empresas
 Escritorio,Materiais e Correios
 Exame médico,Consultorias / Assessorias
-Farmacia,Benefícios
-Férias,Férias
 FGTS,Encargos
+Farmacia,Benefícios
 Filtros Soft,Materiais e Correios
 Fornecedor,Consultorias / Assessorias
 Funcionários Testes,Salários
-Gestão mensalidade,Marketing
+Férias,Férias
 GPS,Encargos
+Gestão mensalidade,Marketing
 Guia de Custas,Custo Processual
 Help Desk,Consultorias / Assessorias
-Indicação,Leads
-Informática ,Materiais e Correios
 INSS,Encargos
-Internet,Telefonia e Internet
-Internet (Vivo e Claro),Telefonia e Internet
 IPTU,Patrimonial
+Indicação,Leads
+Informática,Materiais e Correios
+Internet,Telefonia e Internet
+Internet (Claro),Telefonia e Internet
+Internet (Vivo e Claro),Telefonia e Internet
+Internet (Vivo),Telefonia e Internet
 King jobs,Programas Administrativos
 Laudos,Laudos
+Laudos Mediari,Laudos
+Laudos NQ,Laudos
+Laudos dentro da empresa,Laudos
 Laudos terceiros,Laudos
 Leads,Leads
 Leads Recrutamento,Leads
 Limpa nome,Laudos
-M.M Embalagens ,Materiais e Correios
-Manutenção ar condicionado,Patrimonial
+M.M Embalagens,Materiais e Correios
 Manutenção Predial,Patrimonial
-Mão de Obra reforma,Patrimonial
+Manutenção ar condicionado,Patrimonial
 Marketing,Marketing
 Marketing interno,Marketing
 Materiais,Materiais e Correios
+Materiais de escritório,Materiais e Correios
 Materiais escritório,Materiais e Correios
-Material de Limpeza ,Materiais e Correios
-Material Informática ,Materiais e Correios
-Material Manutenção ,Patrimonial
+Material Informática,Materiais e Correios
+Material Manutenção,Patrimonial
+Material de Limpeza,Materiais e Correios
 Mediari,Mediari
-Mercado ,Materiais e Correios
-Ótica,Materiais e Correios
+Mercado,Materiais e Correios
+Mão de Obra reforma,Patrimonial
 Outro fornecedor,Consultorias / Assessorias
-Outros ,Consultorias / Assessorias
+Outros,Consultorias / Assessorias
 Outros Benefícios,Benefícios
 Outros prejuízos,Prejuízo
+Outros programas Administrativos,Programas Administrativos
 Outros social mídia,Marketing
 Outros tipos de materiais,Materiais e Correios
 Palestra,Consultorias / Assessorias
 Patrimonial,Patrimonial
 Prejuizo,Prejuízo
 Premiação,Premiação
-Premiação (Comercial),Premiação Comercial
+Premiação (Comercial),Premiação
 Premiação (Empresa),Premiação
-Premiação (Jurídico),Premiação Jurídico
+Premiação (Jurídico),Premiação
 Premiação diária,Premiação
-premiação mensal,Premiação
 Premiação quinzenal,Premiação
 Premiação semanal,Premiação
-Processo Trabalhista,Prejuízo
+Processo Trabalhista,Mediari
 Processual,Custo Processual
-produto de limpeza,Materiais e Correios
+Processual Mediari,Custo Processual
+Processual outros,Custo Processual
+Produto de Limpeza,Materiais e Correios
 Programas Administrativos,Programas Administrativos
-Pró-labore UOP,Pró-labore UOP
-Pró-labore,Pró-labore
-Pró-labore Total,Pró-labore
+Prola,Prola
 Pronamp,(-) Despesas Financeiras Banco
+Pronampe,(-) Despesas Financeiras Banco
 Propaganda,Marketing
+Pró-Labore Claudio,Pró-labore Claudio
+Pró-Labore Clayton,Pró-Labore Clayton
+Pró-Labore Kauane,Pró-Labore Kauane
+Pró-Labore Mayara,Pró-Labore Mayara
+Pró-Labore Thais,Pró-Labore Thais
+Pró-labore,Pró-labore
+Pró-labore - Eric,Pró-labore - Eric
+Pró-labore ALEXANDRE,Pró-labore ALEXANDRE
+Pró-labore CONSTRUTORA,Pró-labore CONSTRUTORA
+Pró-labore Diego,Pró-labore Diego
+Pró-labore Isabela,Pró-labore Isabela
+Pró-labore João Victor,Pró-labore João Victor
+Pró-labore Leandro,Pró-labore Leandro
+Pró-labore Magno,Pró-labore Magno
+Pró-labore Manuela,Pró-labore Manuela
+Pró-labore Milena,Pró-labore Milena
+Pró-labore Natalia,Pró-labore Natalia
+Pró-labore Queli,Pró-labore Queli
+Pró-labore Reinaldo,Pró-labore Reinaldo
+Pró-labore Ricardo,Pró-labore Ricardo
+Pró-labore Robson,Pró-labore Robson
+Pró-labore Rogério,Pró-labore Rogério
+Pró-labore Rudy,Pró-labore Rudy
+Pró-labore SAMUEL,Pró-labore SAMUEL
+Pró-labore Samela,Pró-labore Samela
+Pró-labore Total,Pró-labore
+Pró-labore UOP,Pró-labore UOP
+Pró-labore Valdir,Pró-labore Valdir
+Pró-labore Victor Fontinelle,Pró-labore Victor Fontinelle
+Pró-labore Walter,Pró-labore Walter
 Recarga,Telefonia e Internet
 Reclame Aqui,Programas Administrativos
 Reforma,Patrimonial
@@ -135,17 +172,18 @@ SABESP,Patrimonial
 Salários,Salários
 Salários (Comercial),Salários Comercial
 Salários (Jurídico),Salários Jurídico
-segurança,Segurança
 Seguro Protegido B. Brasil,Benefícios
 Simples Nacional,(-) Simples Nacional
 Solft,Materiais e Correios
-Tarifas,(-) Despesas Financeiras Banco
-Tarifas Bancárias ,(-) Despesas Financeiras Banco
-Taxas,(-) Despesas Financeiras Banco
-Tecno juris,Programas Administrativos
-telefonia e internet,Telefonia e Internet
 TFE,Encargos
 TI,Telefonia e Internet
+Tarifa bancária,(-) Despesas Financeiras Banco
+Tarifas,(-) Despesas Financeiras Banco
+Tarifas Bancárias,(-) Despesas Financeiras Banco
+Taxas,(-) Despesas Financeiras Banco
+Tecno juris,Programas Administrativos
+Telefonia,Telefonia e Internet
+Telefonia e internet,Telefonia e Internet
 Transferência entre empresas,Transferência entre empresas
 Transporte App (Uber/99/taxi),Materiais e Correios
 Treinamento,Consultorias / Assessorias
@@ -159,4 +197,11 @@ Vale Refeição (Jurídico),Benefícios Jurídico
 Vale Transporte,Benefícios
 Vale Transporte (Comercial),Benefícios Comercial
 Vale Transporte (Jurídico),Benefícios Jurídico
+algar,Telefonia e Internet
+contabilidade,Consultorias / Assessorias
+oncall,Telefonia e Internet
+premiação mensal,Premiação
+segurança,Segurança
 verisure,Segurança
+Àgua,Patrimonial
+Ótica,Materiais e Correios
